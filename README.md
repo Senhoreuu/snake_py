@@ -1,1 +1,1 @@
-# snake_py
+# First project in Python. My first game!
