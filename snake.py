@@ -3,7 +3,7 @@ import random
 
 
 def setup():
-    global currentLine, currentColumn, lastLine, lastColumn, starting, wayLine, wayColumn, foodLine, foodColumn, way, score
+    global body, currentLine, currentColumn, lastLine, lastColumn, starting, wayLine, wayColumn, foodLine, foodColumn, way, score
     currentLine = 0
     currentColumn = 0
     wayLine = 10
@@ -14,6 +14,7 @@ def setup():
     foodColumn = 0
     starting = False
     score = 0
+    body = []
 
     way = [['🟦' for i in range(wayColumn)] for j in range(wayLine)]
 
@@ -72,10 +73,10 @@ def move_to_direction(direction: str):
     elif direction == 'd':
         currentColumn += 1
 
-    if currentLine > wayLine or currentColumn > wayColumn or currentLine < 0 or currentColumn < 0:
-        return end_game()
-
-    draw_way()
+    if currentLine >= wayLine or currentColumn >= wayColumn or currentLine < 0 or currentColumn < 0:
+        end_game()
+    else:
+        draw_way()
 
 
 def send_food(draw: bool = False, way: list = []):
@@ -90,10 +91,10 @@ def send_food(draw: bool = False, way: list = []):
 
     if draw:
         draw_way()
-        
+
     if len(way) > 0:
         way[foodLine][foodColumn] = '🍎'
-        
+
         return way
 
 
@@ -124,6 +125,15 @@ def end_game():
     global starting
     print('End Game!')
     starting = False
+
+    finish = input('Do you want to play again? (y/n): ').lower()
+
+    if finish in ['y', 'yes', 's', 'sim']:
+        setup()
+        start_game()
+    else:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('Bye!')
 
 
 def main():
